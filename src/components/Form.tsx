@@ -9,7 +9,7 @@ const Form = () => {
         <span className="text-indigo-600 font-bold">administralos</span>
       </p>
 
-      <form className="bg-white shadow-md rounded-lg py-10 px-5 w-3/4 mx-auto mb-10">
+      <form className="bg-white shadow-md rounded-lg py-10 px-5 md:w-4/5 lg:w-3/4 mx-auto mb-10">
         <label
           className="block text-gray-700 uppercase font-bold"
           htmlFor="mascota"
