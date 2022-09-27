@@ -23,3 +23,7 @@ button:focus,
 button:focus-visible {
   outline: none
 }
+
+section::-webkit-scrollbar {
+  display: none;
+}

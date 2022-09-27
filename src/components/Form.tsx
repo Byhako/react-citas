@@ -1,4 +1,50 @@
-const Form = () => {
+import { useState, useEffect } from "react"
+import Error from './Error'
+
+interface Patient {
+  pet: string;
+  name: string;
+  email: string;
+  alta: string;
+  sintomas: string;
+  id: string;
+}
+
+interface Form {
+  patients: Patient[];
+  setPatients: any;
+}
+
+
+const Form = ({ setPatients, patients }: Form) => {
+  const [pet, setPet] = useState<string>('')
+  const [name, setName] = useState<string>('')
+  const [email, setEmail] = useState<string>('')
+  const [alta, setAlta] = useState<string>('')
+  const [sintomas, setSintomas] = useState<string>('')
+  const [error, setError] = useState<boolean>(false)
+
+  const handleSubmit = (e: any) => {
+    e.preventDefault()
+
+    if ([pet, name, email, alta, sintomas].includes('')) {
+      setError(true)
+    } else {
+      setError(false)
+      setPatients([
+        ...patients, 
+        { 
+          pet, name, email, alta, sintomas,
+          id: `${Math.random().toString(34).substring(2)}${Date.now().toString(34)}`
+        }
+      ])
+      setPet('')
+      setName('')
+      setEmail('')
+      setAlta('')
+      setSintomas('')
+    }
+  }
 
   return (
     <div className="md:w-1/2 lg:w-2/5">
@@ -9,7 +55,11 @@ const Form = () => {
         <span className="text-indigo-600 font-bold">administralos</span>
       </p>
 
-      <form className="bg-white shadow-md rounded-lg py-10 px-5 md:w-4/5 lg:w-3/4 mx-auto mb-10">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white shadow-md rounded-lg py-10 px-5 md:w-4/5 lg:w-3/4 mx-auto mb-10"
+      >
+        {error && <Error>Te faltan llenar campos</Error>}
         <label
           className="block text-gray-700 uppercase font-bold"
           htmlFor="mascota"
@@ -21,6 +71,8 @@ const Form = () => {
           placeholder="Nombre Mascota"
           className="border-2 w-full p-2 mt-2 rounded-md mb-4"
           id='mascota'
+          value={pet}
+          onChange={(e) => setPet(e.target.value)}
         />
 
         <label
@@ -34,6 +86,8 @@ const Form = () => {
           placeholder="Nombre Propietario"
           className="border-2 w-full p-2 mt-2 rounded-md mb-4"
           id='owner'
+          value={name}
+          onChange={(e) => setName(e.target.value)}
         />
 
         <label
@@ -47,6 +101,8 @@ const Form = () => {
           placeholder="Email"
           className="border-2 w-full p-2 mt-2 rounded-md mb-4"
           id='email'
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
 
         <label
@@ -59,6 +115,8 @@ const Form = () => {
           type="date"
           className="border-2 w-full p-2 mt-2 rounded-md mb-4"
           id='alta'
+          value={alta}
+          onChange={(e) => setAlta(e.target.value)}
         />
 
         <label
@@ -71,6 +129,8 @@ const Form = () => {
           className="border-2 w-full p-2 mt-2 rounded-md mb-4"
           id='sintomas'
           placeholder="Describe los sintomas"
+          value={sintomas}
+          onChange={(e) => setSintomas(e.target.value)}
         />
 
         <input

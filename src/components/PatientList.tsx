@@ -1,19 +1,42 @@
 import Patient from "./Patinent"
 
-const PatientList = () => {
+interface IPatient {
+  pet: string;
+  name: string;
+  email: string;
+  alta: string;
+  sintomas: string;
+  id: string;
+}
+
+const PatientList = ({ patients }:any) => {
 
   return (
-    <div className="md:w-1/2 lg:w-3/5 md:h-screen md:overflow-y-scroll">
-      <h2 className="font-black text-3xl text-center">Listado de pacientes</h2>
+    <div className="md:w-1/2 lg:w-3/5 md:h-screen pr-10">
+      {patients.length ? (
+        <>
+          <h2 className="font-black text-3xl text-center">Listado de pacientes</h2>
+          <p className="text-xl mt-5 mb-10 text-center">
+            Adminstra tus {' '}
+            <span className="font-bold text-indigo-600">pacientes y citas</span>
+          </p>
+        </>
+      ) : (
+        <>
+          <h2 className="font-black text-3xl text-center">No hay pacientes</h2>
+          <p className="text-xl mt-5 mb-10 text-center">
+            Comienza agregando pacientes {' '}
+            <span className="font-bold text-indigo-600">y los verás aquí.</span>
+          </p>
+        </>
+      )}
 
-      <p className="text-xl mt-5 mb-10 text-center">
-        Adminstra tus {' '}
-        <span className="font-bold text-indigo-600">pacientes y citas</span>
-      </p>
+      <section className="md:h-screen md:overflow-y-scroll">
+        {patients.map((item: IPatient) => (
+          <Patient key={item.id} {...item} />
+        ))}
+      </section>
 
-      <Patient />
-      <Patient />
-      <Patient />
     </div>
   )
 }
