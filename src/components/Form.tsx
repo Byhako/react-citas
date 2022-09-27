@@ -11,18 +11,31 @@ interface Patient {
 }
 
 interface Form {
+  patient: any;
   patients: Patient[];
+  setPatient: any;
   setPatients: any;
 }
 
 
-const Form = ({ setPatients, patients }: Form) => {
+const Form = ({ setPatients, patients, patient, setPatient }: Form) => {
   const [pet, setPet] = useState<string>('')
   const [name, setName] = useState<string>('')
   const [email, setEmail] = useState<string>('')
   const [alta, setAlta] = useState<string>('')
   const [sintomas, setSintomas] = useState<string>('')
   const [error, setError] = useState<boolean>(false)
+
+  useEffect(() => {
+    if (patient.name) {
+      setPet(patient.pet)
+      setName(patient.name)
+      setEmail(patient.email)
+      setAlta(patient.alta)
+      setSintomas(patient.sintomas)
+    }
+  }, [patient])
+
 
   const handleSubmit = (e: any) => {
     e.preventDefault()
@@ -31,13 +44,29 @@ const Form = ({ setPatients, patients }: Form) => {
       setError(true)
     } else {
       setError(false)
-      setPatients([
-        ...patients, 
-        { 
-          pet, name, email, alta, sintomas,
-          id: `${Math.random().toString(34).substring(2)}${Date.now().toString(34)}`
+      if (patient.id) {
+        // Edito paciente
+        const newListPatients = [...patients]
+        newListPatients[patient.idx] = {
+          pet,
+          name,
+          email,
+          alta,
+          sintomas,
+          id: patient.id
         }
-      ])
+        setPatients(newListPatients)
+        setPatient({})
+      } else {
+        // crear paciente
+        setPatients([
+          ...patients,
+          { 
+            pet, name, email, alta, sintomas,
+            id: `${Math.random().toString(34).substring(2)}${Date.now().toString(34)}`
+          }
+        ])
+      }
       setPet('')
       setName('')
       setEmail('')
@@ -135,7 +164,7 @@ const Form = ({ setPatients, patients }: Form) => {
 
         <input
           type="submit" 
-          value='Agregar paciente'
+          value={patient.pet ? 'Editar paciente' : 'Agregar paciente'}
           className="bg-indigo-600 w-full p-2 text-white uppercase font-bold cursor-pointer rounded-sm transition-all hover:bg-indigo-800"
         />
 

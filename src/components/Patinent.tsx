@@ -4,13 +4,17 @@ interface IPatient {
   email: string;
   alta: string;
   sintomas: string;
+  id: string;
+  idx: number;
+  setPatient: any;
+  deletePatient: any;
 }
 
 const Patient = (props: IPatient) => {
-  const { pet, name, email, alta, sintomas } = props
+  const { pet, name, email, alta, sintomas, id, setPatient, idx, deletePatient } = props
 
   return (
-    <div className="bg-white mt-5 shadow-md px-5 pt-8 pb-5 rounded-md">
+    <div className="bg-white mb-5 shadow-md px-5 pt-8 pb-5 rounded-md">
       <p className="mt-3 font-bold mb-3 text-gray-700 uppercase">
         Nombre: {' '}
         <span className="font-normal normal-case">{pet}</span>
@@ -39,10 +43,12 @@ const Patient = (props: IPatient) => {
         <button
           type="button"
           className="py-1 px-8 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-lg"
+          onClick={() => setPatient({ pet, name, email, alta, sintomas, id, idx })}
         >Editar</button>
         <button
           type="button"
           className="py-1 px-8 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg"
+          onClick={() => deletePatient(idx)}
         >Eliminar</button>
       </div>
     </div>
